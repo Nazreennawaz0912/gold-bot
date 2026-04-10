@@ -10,6 +10,8 @@ GROUP_CHAT_ID = os.environ["GROUP_CHAT_ID"]
 def send_telegram(msg):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     requests.post(url, json={"chat_id": GROUP_CHAT_ID, "text": msg})
+    
+send_telegram("Test message from bot ✅")
 
 def get_gold_price():
     headers = {"User-Agent": "Mozilla/5.0"}
