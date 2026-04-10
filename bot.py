@@ -5,11 +5,11 @@ import os
 URL = "https://www.goodreturns.in/gold-rates/coimbatore.html"
 
 TOKEN = os.environ["BOT_TOKEN"]
-CHAT_ID = os.environ["CHAT_ID"]
+GROUP_CHAT_ID = os.environ["GROUP_CHAT_ID"]
 
 def send_telegram(msg):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
-    requests.post(url, json={"chat_id": CHAT_ID, "text": msg})
+    requests.post(url, json={"chat_id": GROUP_CHAT_ID, "text": msg})
 
 def get_gold_price():
     headers = {"User-Agent": "Mozilla/5.0"}
