@@ -21,6 +21,9 @@ def get_gold_price():
 
     # Find 22K section
     section = soup.find("section", attrs={"data-gr-title": lambda x: x and "22 Carat Gold Price" in x})
+    print("Section found:", section)
+    if not section:
+        return None
     table = section.find("table")
 
     for row in table.tbody.find_all("tr"):
@@ -37,4 +40,4 @@ price = get_gold_price()
 if price:
     send_telegram(f"🔔 Coimbatore Gold Price\n22K: ₹{price:,.0f}")
 else:
-    send_telegram("⚠️ Failed to fetch gold price")
+    send_telegram("⚠️ Gold price section not found on website")
