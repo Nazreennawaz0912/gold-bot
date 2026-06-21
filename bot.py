@@ -19,9 +19,15 @@ def get_gold_price():
 
     soup = BeautifulSoup(r.text, "html.parser")
 
+    print("Status Code:", r.status_code)
+    print("Page Title:", soup.title)
+
+    with open("debug.html", "w", encoding="utf-8") as f:
+        f.write(r.text)
+    
     # Find 22K section
     section = soup.find("section", attrs={"data-gr-title": lambda x: x and "22 Carat Gold Price" in x})
-    print("Section found:", section)
+    print("Section found:", section is not None)
     if not section:
         return None
     table = section.find("table")
