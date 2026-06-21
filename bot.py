@@ -26,19 +26,15 @@ def get_gold_price():
         f.write(r.text)
     
     # Find 22K section
-    section = soup.find("section", attrs={"data-gr-title": lambda x: x and "22 Carat Gold Price" in x})
-    print("Section found:", section is not None)
-    if not section:
-        return None
-    table = section.find("table")
+    tables = soup.find_all("table")
 
-    for row in table.tbody.find_all("tr"):
-        cols = row.find_all("td")
-        if cols[0].get_text(strip=True) == "1":
-            price = cols[1].get_text(strip=True)
-            return float(price.replace("₹", "").replace(",", ""))
+    print("Tables found:", len(tables))
 
-    return None
+    for i, table in enumerate(tables[:5]):
+        print(f"\n--- TABLE {i} ---")
+        print(table.get_text(" ", strip=True)[:500])
+
+return None
 
 # Run once
 price = get_gold_price()
