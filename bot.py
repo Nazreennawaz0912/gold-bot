@@ -11,7 +11,7 @@ def send_telegram(msg):
     url = f"https://api.telegram.org/bot{TOKEN}/sendMessage"
     requests.post(url, json={"chat_id": GROUP_CHAT_ID, "text": msg})
     
-send_telegram("Test message from bot ✅")
+#send_telegram("Test message from bot ✅")
 
 def get_gold_price():
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -19,20 +19,20 @@ def get_gold_price():
 
     soup = BeautifulSoup(r.text, "html.parser")
 
-    print("Status Code:", r.status_code)
-    print("Page Title:", soup.title)
-
-    with open("debug.html", "w", encoding="utf-8") as f:
-        f.write(r.text)
-    
-    # Find 22K section
     tables = soup.find_all("table")
 
-    print("Tables found:", len(tables))
+    if not tables:
+        return None
 
-    for i, table in enumerate(tables[:5]):
-        print(f"\n--- TABLE {i} ---")
-        print(table.get_text(" ", strip=True)[:500])
+    table = tables[0]
+
+    for row in table.find_all("tr"):
+        cols = [td.get_text(strip=True) for td in row.find_all(["td", "th"])]
+
+        # First row containing 1 gram price
+        if len(cols) >= 3 and cols[0] == "1":
+            price = cols[2]  # 22K column
+            return float(price.replace("₹", "").replace(",", ""))
 
     return None
 
