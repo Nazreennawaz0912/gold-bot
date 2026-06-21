@@ -34,7 +34,7 @@ def get_gold_price():
         print(f"\n--- TABLE {i} ---")
         print(table.get_text(" ", strip=True)[:500])
 
-return None
+    return None
 
 # Run once
 price = get_gold_price()
